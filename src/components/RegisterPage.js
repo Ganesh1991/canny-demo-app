@@ -82,7 +82,7 @@ class RegisterPage extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    debugger;
+    
     const { user } = this.state;
     const { dispatch } = this.props;
     if (user.username && user.password) {

@@ -8,11 +8,11 @@ export function configureFakeBackend() {
       // wrap in timeout to simulate server api call
       setTimeout(() => {
         // authenticate
-        debugger;
+        
         if (url.endsWith("/users/authenticate") && opts.method === "POST") {
           // get parameters from post request
           let params = JSON.parse(opts.body);
-          debugger;
+          
           // find if any user matches login credentials
           let filteredUsers = users.filter(user => {
             return (
