@@ -12,7 +12,7 @@ export const PublicRoute = ({
     {...rest}
     component={props =>
       isAuthenticated ? (
-        <Redirect to="/home" />
+        <Redirect to="/Dashboard" />
       ) : (
         <React.Fragment>
           <Component {...props} />

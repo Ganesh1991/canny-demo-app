@@ -10,12 +10,17 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
+import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-// import { mainListItems, secondaryListItems } from "./listItems";
+import { mainListItems, secondaryListItems } from "./ListItem";
 // import SimpleLineChart from "./SimpleLineChart";
 // import SimpleTable from "./SimpleTable";
+import PrivateNav from "../navs/privateNav";
+import PublicNav from "../navs/publicNav";
+import { connect } from "react-redux";
+import { userActions } from "../_actions";
 
 const drawerWidth = 240;
 
@@ -97,9 +102,12 @@ const styles = theme => ({
 });
 
 class Dashboard extends React.Component {
-  state = {
-    open: true
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    };
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -107,6 +115,10 @@ class Dashboard extends React.Component {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
+  };
+  onLogout = () => {
+    const { dispatch } = this.props;
+    dispatch(userActions.logout());
   };
 
   render() {
@@ -146,11 +158,19 @@ class Dashboard extends React.Component {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
+            {/* <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              onClick={this.onLogout}
+            >
+              Sign Out
+            </Button>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -169,21 +189,17 @@ class Dashboard extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          {/* <List>{mainListItems}</List>
+          <List>{mainListItems}</List>
           <Divider />
-          <List>{secondaryListItems}</List> */}
+          <List>{secondaryListItems}</List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Typography variant="h4" gutterBottom component="h2">
-            Orders
-          </Typography>
+          <Typography variant="h4" gutterBottom component="h2" />
           <Typography component="div" className={classes.chartContainer}>
             {/* <SimpleLineChart /> */}
           </Typography>
-          <Typography variant="h4" gutterBottom component="h2">
-            Products
-          </Typography>
+          <Typography variant="h4" gutterBottom component="h2" />
           <div className={classes.tableContainer}>{/* <SimpleTable /> */}</div>
         </main>
       </div>
@@ -191,4 +207,13 @@ class Dashboard extends React.Component {
   }
 }
 
-export default withStyles(styles)(Dashboard);
+function mapStateToProps({ authentication, alert }) {
+  const { loggingIn } = authentication;
+  return {
+    loggingIn,
+    alert
+  };
+}
+const connectedDashboardPage = connect(mapStateToProps)(Dashboard);
+
+export default withStyles(styles)(connectedDashboardPage);

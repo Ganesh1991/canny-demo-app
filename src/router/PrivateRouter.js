@@ -9,7 +9,6 @@ export const PrivateRoute = ({
   component: Component,
   ...rest
 }) => {
-  debugger;
   return (
     <Route
       {...rest}
@@ -21,7 +20,7 @@ export const PrivateRoute = ({
             </div>
           </div>
         ) : (
-          <Redirect to="/" />
+          <Redirect to="/login" />
         )
       }
     />
